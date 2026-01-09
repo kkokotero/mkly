@@ -1,0 +1,93 @@
+{
+	"name": "mkly",
+	"description": "mkly is a modern CLI framework focused on user experience, ease of use, and expressive, friendly command-line interfaces.",
+	"type": "module",
+  "version": "0.1.0",
+	"author": "kkokotero",
+	"private": false,
+	"sideEffects": false,
+	"keywords": [
+		"terminal",
+		"colors",
+		"ansi",
+		"cli-framework",
+		"command-line",
+		"command-line-interface",
+		"user-experience",
+		"ux",
+		"developer-experience",
+		"dx",
+		"tooling",
+		"productivity",
+		"productivity-tools",
+		"libraries",
+		"framework",
+		"cli",
+		"console",
+		"functional",
+		"nodejs",
+		"esm",
+		"typescript",
+		"commander",
+		"yargs",
+		"oclif",
+		"cliffy",
+		"caporal",
+		"deno",
+		"clap",
+		"cobra"
+	],
+	"publishConfig": {
+		"access": "public"
+	},
+	"license": "MIT",
+	"homepage": "https://github.com/kkokotero/mkly#readme",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/kkokotero/mkly"
+	},
+	"bugs": {
+		"url": "https://github.com/kkokotero/mkly/issues"
+	},
+	"main": "./dist/index.js",
+  "exports": {
+		".": {
+			"import": "./dist/index.js",
+			"require": "./dist/index.js",
+			"types": "./dist/index.d.ts"
+		}
+	},
+	"typesVersions": {
+		"*": {
+			"*": [
+				"./dist/*"
+			]
+		}
+	},
+	"files": [
+		"dist/",
+		"README.md"
+	],
+	"engines": {
+		"node": ">=16"
+	},
+	"scripts": {
+		"build": "tsup",
+		"test": "vitest",
+		"release": "standard-version",
+		"typecheck": "tsc --noEmit",
+		"lint": "biome lint src",
+		"check": "biome check src",
+		"prepublishOnly": "npm run lint && npm run build && npm run typecheck"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.2.6",
+		"@types/node": "^24.7.2",
+		"all-contributors-cli": "^6.26.1",
+		"mkly": "^0.1.4",
+		"standard-version": "^9.5.0",
+		"tsup": "^8.5.0",
+		"typescript": "^5.9.3",
+		"vitest": "^4.0.16"
+	}
+}
