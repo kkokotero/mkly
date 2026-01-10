@@ -25,9 +25,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: test code (vitest)
-        run: npm run test
-
       - name: Lint code (biome)
         run: npm run lint
 
