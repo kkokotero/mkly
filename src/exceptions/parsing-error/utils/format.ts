@@ -1,6 +1,6 @@
-import characters from "mauw/characters";
-import color from "mauw/colors";
-import { calcType } from "./calc-type";
+import { ARROW_RIGHT_UNICODE } from 'mauw/characters/unicode';
+import color from 'mauw/colors';
+import { calcType } from './calc-type';
 
 /**
  * Formats a list of values as a comma-separated, colorized string.
@@ -15,10 +15,7 @@ import { calcType } from "./calc-type";
  * @param colorize - Function used to apply color or styling to each value.
  * @returns A formatted, comma-separated string.
  */
-export const formatList = (
-	items: unknown[],
-	colorize: (v: string) => string,
-) =>
+export const formatList = (items: unknown[], colorize: (v: string) => string) =>
 	items.map((item) => colorize(`"${String(item)}"`)).join(', ');
 
 /**
@@ -48,9 +45,7 @@ export const formatReceived = (
 			(item) =>
 				colorize(`"${String(item)}"`) +
 				' ' +
-				color.reset.dim.bold(
-					`${characters.arrowRight} (${calcType(item)})`,
-				),
+				color.reset.dim.bold(`${ARROW_RIGHT_UNICODE} (${calcType(item)})`),
 		)
 		.join(', ');
 

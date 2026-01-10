@@ -1,4 +1,4 @@
-import characters from 'mauw/characters';
+import { CROSS_UNICODE } from 'mauw/characters/unicode';
 import { color } from 'mauw/colors';
 import { formatExamples, formatList, formatReceived } from './utils/format';
 import { resolveHint } from './utils/resolve-hint';
@@ -53,7 +53,7 @@ export class ParsingError<
 
 		// Base error blocks (header + main message)
 		const blocks: string[] = [
-			color.red.bold(`${characters.cross} Parsing Error`),
+			color.red.bold(`${CROSS_UNICODE} Parsing Error`),
 			color.red(message),
 		];
 

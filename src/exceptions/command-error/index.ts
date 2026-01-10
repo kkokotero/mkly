@@ -1,4 +1,4 @@
-import characters from 'mauw/characters';
+import { CROSS_UNICODE } from 'mauw/characters/unicode';
 import { color } from 'mauw/colors';
 import type { CommandErrorOptions } from './types';
 import {
@@ -15,8 +15,7 @@ import { resolveHint } from '../parsing-error/utils/resolve-hint';
  * received values, examples, and optional hints.
  */
 export class CommandError extends Error {
-
-  public readonly fromKLY = true;
+	public readonly fromKLY = true;
 
 	/**
 	 * Creates a new CommandError instance.
@@ -40,7 +39,7 @@ export class CommandError extends Error {
 		 * to produce the final error message.
 		 */
 		const blocks: string[] = [
-			color.red.bold(`${characters.cross} Command Error`),
+			color.red.bold(`${CROSS_UNICODE} Command Error`),
 			color.red(message),
 		];
 
@@ -76,11 +75,7 @@ export class CommandError extends Error {
 
 		// Example usages
 		if (examples.length) {
-			blocks.push(
-				'',
-				color.bold('Examples:'),
-				`  ${formatExamples(examples)}`,
-			);
+			blocks.push('', color.bold('Examples:'), `  ${formatExamples(examples)}`);
 		}
 
 		// Received values
@@ -95,11 +90,7 @@ export class CommandError extends Error {
 		// Hint resolution
 		const resolvedHint = resolveHint(hint, expected, received);
 		if (resolvedHint) {
-			blocks.push(
-				'',
-				color.bold('Hint:'),
-				`  ${color.cyan(resolvedHint)}`,
-			);
+			blocks.push('', color.bold('Hint:'), `  ${color.cyan(resolvedHint)}`);
 		}
 
 		super(blocks.join('\n'));

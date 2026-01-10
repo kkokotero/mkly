@@ -2,7 +2,7 @@
 	"name": "mkly",
 	"description": "mkly is a modern CLI framework focused on user experience, ease of use, and expressive, friendly command-line interfaces.",
 	"type": "module",
-  "version": "0.1.0",
+	"version": "0.1.0",
 	"author": "kkokotero",
 	"private": false,
 	"sideEffects": false,
@@ -50,7 +50,7 @@
 		"url": "https://github.com/kkokotero/mkly/issues"
 	},
 	"main": "./dist/index.js",
-  "exports": {
+	"exports": {
 		".": {
 			"import": "./dist/index.js",
 			"require": "./dist/index.js",
@@ -84,7 +84,7 @@
 		"@biomejs/biome": "^2.2.6",
 		"@types/node": "^24.7.2",
 		"all-contributors-cli": "^6.26.1",
-		"mauw": "^0.1.4",
+		"mauw": "0.1.4",
 		"standard-version": "^9.5.0",
 		"tsup": "^8.5.0",
 		"typescript": "^5.9.3",
