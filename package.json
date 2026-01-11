@@ -2,7 +2,7 @@
 	"name": "mkly",
 	"description": "mkly is a modern CLI framework focused on user experience, ease of use, and expressive, friendly command-line interfaces.",
 	"type": "module",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"author": "kkokotero",
 	"private": false,
 	"sideEffects": false,
