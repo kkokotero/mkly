@@ -2,7 +2,6 @@ import {
 	ALIAS,
 	ALIAS_VALUE_REGEX,
 	ALIAS_WITH_VALUE,
-	GROUPED_ALIASES,
 } from './constants';
 import type { ParsedArguments } from './types';
 

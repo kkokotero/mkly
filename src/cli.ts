@@ -46,7 +46,19 @@ export class CLI extends Command {
 			 */
 			while (tokens.length > 0) {
 				const next = tokens[0] ?? '';
-				const sub = command.commands.get(next);
+				let sub = command.commands.get(next);
+
+				if (!sub) {
+					// Check for aliases
+					for (const [_, cmd] of command.commands) {
+						if (cmd.aliases.has(next)) {
+							sub = cmd;
+
+							break;
+						}
+					}
+				}
+
 				if (!sub) break;
 
 				tokens.shift();
@@ -127,15 +139,15 @@ export class CLI extends Command {
 
 				/** ───── OPTION ───── */
 				if (parsed.isFlag && !endOfFlags) {
-          if (command.optionsDef.size === 0) {
-            throw new CommandError(`Unknown option: ${parsed.original}`, {
-              command: command.name,
-              option: parsed.original?.replace(/^--?/, ''),
-              hint: 'This command does not accept any options.',
-            });
-          }
+					if (command.optionsDef.size === 0) {
+						throw new CommandError(`Unknown option: ${parsed.original}`, {
+							command: command.name,
+							option: parsed.original?.replace(/^--?/, ''),
+							hint: 'This command does not accept any options.',
+						});
+					}
 
-          // Lookup option definition
+					// Lookup option definition
 					let opt = command.optionsDef.get(parsed.key ?? '') || undefined;
 
 					if (!opt) {
@@ -166,7 +178,11 @@ export class CLI extends Command {
 
 					// Inline value (--key=value, -a=1, -a1)
 					if (parsed.value !== undefined) {
-						options[parsed.key ?? ''] = coerceOption(opt, parsed.value, opt.choices);
+						options[parsed.key ?? ''] = coerceOption(
+							opt,
+							parsed.value,
+							opt.choices,
+						);
 						continue;
 					}
 
@@ -186,13 +202,13 @@ export class CLI extends Command {
 					continue;
 				}
 
-        if (command.argumentsDef.size === 0) {
-          throw new CommandError(`Unexpected argument: ${raw}`, {
-            command: command.name,
-            argument: raw,
-            hint: 'This command does not accept positional arguments.',
-          });
-        }
+				if (command.argumentsDef.size === 0) {
+					throw new CommandError(`Unexpected argument: ${raw}`, {
+						command: command.name,
+						argument: raw,
+						hint: 'This command does not accept positional arguments.',
+					});
+				}
 
 				/** ───── LEFTOVER TOKEN ───── */
 				throw new CommandError(`Unexpected argument: ${raw}`, {
@@ -204,27 +220,37 @@ export class CLI extends Command {
 
 			/** 4. Apply default values for arguments */
 			for (const [name, arg] of command.argumentsDef) {
-				if (args[name] === undefined && arg.defaultValue !== undefined) {
-					args[name] = coerceArgument(arg.type, arg.defaultValue);
+				if (args[name] === undefined) {
+					if (arg.defaultValue !== undefined) {
+						args[name] = coerceArgument(arg.type, arg.defaultValue);
+						continue;
+					}
+
+					if (!arg.optional) {
+						throw new CommandError(`Missing required argument: <${name}>`, {
+							command: command.name,
+							argument: name,
+							hint: 'This argument is required.',
+						});
+					}
 				}
 			}
 
 			/** 5. Apply default values for options */
 			for (const [name, opt] of command.optionsDef) {
-				if (options[name] === undefined && opt.defaultValue !== undefined) {
-					options[name] = coerceOption(opt.type, opt.defaultValue);
-				}
-			}
+				if (options[name] === undefined) {
+					if (opt.defaultValue !== undefined) {
+						options[name] = coerceOption(opt.type, opt.defaultValue);
+						continue;
+					}
 
-			/** 6. Validate required arguments */
-			for (const [name, arg] of command.argumentsDef) {
-				const required = !arg.optional && arg.defaultValue === undefined;
-				if (required && args[name] === undefined) {
-					throw new CommandError(`Missing required argument: <${name}>`, {
-						command: command.name,
-						argument: name,
-						hint: 'This argument is required.',
-					});
+					if (!opt.optional) {
+						throw new CommandError(`Missing required option: --${name}`, {
+							command: command.name,
+							option: name,
+							hint: 'This option is required.',
+						});
+					}
 				}
 			}
 
